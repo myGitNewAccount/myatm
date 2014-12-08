@@ -17,22 +17,21 @@ public class ATMTest {
 
     @Test
     public void testGetMoneyInATM() {
-        System.out.println("getMoneyInATM");
-        ATM instance = new ATM(1000.0);
         double expResult = 1000.0;
+        ATM instance = new ATM(1000.0);
         double result = instance.getMoneyInATM();
         assertEquals(expResult, result, 1000.0);
     }
 
     @Test
     public void testValidateCard() {
-        System.out.println("validateCard");
+        int pinCode = 1234;
+        boolean expResult = false;
+        
         Card card = mock(Card.class);
-        int pinCode = 0;
         when(card.checkPin(anyInt())).thenReturn(false);
         
         ATM instance = new ATM(0);
-        boolean expResult = false;
         boolean result = instance.validateCard(card, pinCode);
         assertEquals(expResult, result);
     }
