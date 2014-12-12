@@ -16,11 +16,32 @@ import static org.mockito.Mockito.*;
 public class ATMTest {
 
     @Test
-    public void testGetMoneyInATM() {
-        double expResult = 1000.0;
-        ATM instance = new ATM(1000.0);
-        double result = instance.getMoneyInATM();
-        assertEquals(expResult, result, 1000.0);
+    public void testGetMoneyInATM2Denominates500() {
+        int expResult = 0;
+        ATM instance = new ATM(0);
+        int result = instance.getMoneyInATM();
+        assertEquals(expResult, result, 0);
+    }
+    
+    @Test
+    public void testGetMoneyInATM10Denominates100() {
+        int expResult = 1000;
+        ATM instance = new ATM(1000, 0, 0, 10);
+        int result = instance.getMoneyInATM();
+        assertEquals(expResult, result, 1000);
+    }
+    
+    @Test
+    public void testGetMoneyInATM0Denominates() {
+        int expResult = 0;
+        ATM instance = new ATM(0);
+        int result = instance.getMoneyInATM();
+        assertEquals(expResult, result, 1000);
+    }
+    
+    @Test(expected = UnsupportedOperationException.class)
+    public void testSetWrongMoneyAmountInAtmAndTryToGet(){
+        ATM instance = new ATM(-10);
     }
 
     @Test
