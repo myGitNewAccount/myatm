@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ATM.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MyATM</a> &gt; <a href="index.source.html" class="el_package">ua.pti.myatm</a> &gt; <span class="el_source">ATM.java</span></div><h1>ATM.java</h1><pre class="source lang-java linenums">package ua.pti.myatm;
 
+import ua.pti.exceptions.*;
+
 public class ATM {
     private final static String atmWeb = &quot;PrivatBankATMWeb&quot;;
-<span class="fc" id="L5">    private final int[] denomination500_1 = {500, 200, 100, 50, 20, 10, 5, 2, 1};</span>
+<span class="fc" id="L7">    private final int[] denomination500_1 = {500, 200, 100, 50, 20, 10, 5, 2, 1};</span>
     
     private Card cardInATM;
     private boolean cardIsValidForUsing;
     private int moneyInATM;
     private int[] denomination500_1Values;
     
-    private int denominationMoneyCount(Integer denominationValues[]){
-<span class="fc" id="L13">        int sum = 0;</span>
-<span class="fc bfc" id="L14" title="All 2 branches covered.">        for (int i = 0; i &lt; denominationValues.length; i++) {</span>
-<span class="fc" id="L15">            sum += denominationValues[i] * denomination500_1[i];</span>
+    public final int denominationMoneyCount(Integer denominationValues[]){
+<span class="fc" id="L15">        int sum = 0;</span>
+<span class="fc bfc" id="L16" title="All 2 branches covered.">        for (int i = 0; i &lt; denominationValues.length; i++) {</span>
+<span class="fc" id="L17">            sum += denominationValues[i] * denomination500_1[i];</span>
         }
-<span class="fc" id="L17">        return sum;</span>
+<span class="fc" id="L19">        return sum;</span>
     }
             
     //Можно задавать количество денег в банкомате 
-<span class="fc" id="L21">    ATM(int moneyInATM, Integer... denominationValues){</span>
-<span class="fc bfc" id="L22" title="All 2 branches covered.">        if(moneyInATM &lt; 0){</span>
-<span class="fc" id="L23">            System.out.println(&quot;WrongMoneyAmountException&quot;);</span>
-<span class="fc" id="L24">            throw new UnsupportedOperationException();</span>
+<span class="fc" id="L23">    ATM(int moneyInATM, Integer... denominationValues) throws WrongMoneyAmountException{</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        if(moneyInATM &lt; 0){</span>
+<span class="fc" id="L25">            throw new WrongMoneyAmountException(&quot;Money amount, you have typed in, is wrong.&quot;);</span>
         }
-<span class="pc bpc" id="L26" title="1 of 2 branches missed.">        else if(moneyInATM != denominationMoneyCount(denominationValues)){</span>
-<span class="nc" id="L27">            System.out.println(&quot;WrongMoneyAmountException&quot;);</span>
-<span class="nc" id="L28">            throw new UnsupportedOperationException();</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        else if(moneyInATM != denominationMoneyCount(denominationValues)){</span>
+<span class="fc" id="L28">            throw new WrongMoneyAmountException(&quot;Money amount, you have typed in, is wrong.&quot;);</span>
         }
         else{
 <span class="fc" id="L31">            this.moneyInATM = moneyInATM;</span>
@@ -42,28 +42,35 @@ public class ATM {
     public int getMoneyInATM() {
 <span class="fc" id="L43">         return moneyInATM;</span>
     }
+    
+    public boolean getCardIsValidForUsing() {
+<span class="fc" id="L47">        return cardIsValidForUsing;</span>
+    }
+    
+    public Card getCardInATM(){
+<span class="fc" id="L51">        return cardInATM;</span>
+    }
         
     //С вызова данного метода начинается работа с картой
     //Метод принимает карту и пин-код, проверяет пин-код карты и не заблокирована ли она
     //Если неправильный пин-код или карточка заблокирована, возвращаем false. При этом, вызов всех последующих методов у ATM с данной картой должен генерировать исключение NoCardInserted
     public boolean validateCard(Card card, int pinCode){
-<span class="fc" id="L50">        cardInATM = card;</span>
-<span class="pc bpc" id="L51" title="1 of 2 branches missed.">        if(cardInATM.checkPin(pinCode)){</span>
-<span class="nc bnc" id="L52" title="All 2 branches missed.">            if(!cardInATM.isBlocked()){</span>
-<span class="nc" id="L53">                cardIsValidForUsing = true;</span>
-<span class="nc" id="L54">                return cardIsValidForUsing;</span>
+<span class="fc" id="L58">        cardInATM = card;</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if(cardInATM.checkPin(pinCode)){</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">            if(!cardInATM.isBlocked()){</span>
+<span class="fc" id="L61">                cardIsValidForUsing = true;</span>
+<span class="fc" id="L62">                return cardIsValidForUsing;</span>
             }
         }
-<span class="fc" id="L57">        return cardIsValidForUsing;</span>
+<span class="fc" id="L65">        return cardIsValidForUsing;</span>
     }
     
     //Возвращает сколько денег есть на счету
-    public double checkBalance(){
-<span class="nc bnc" id="L62" title="All 2 branches missed.">        if(!cardIsValidForUsing){</span>
-<span class="nc" id="L63">            System.out.println(&quot;NoCardInserted&quot;);</span>
-<span class="nc" id="L64">            throw new UnsupportedOperationException();</span>
+    public double checkBalance() throws NoCardInsertedException{
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if(!cardIsValidForUsing){</span>
+<span class="nc" id="L71">            throw new NoCardInsertedException(&quot;No card found in ATM.&quot;);</span>
         }
-<span class="nc" id="L66">        return cardInATM.getAccount().getBalance();</span>
+<span class="nc" id="L73">        return cardInATM.getAccount().getBalance();</span>
     }
     
     //Метод для снятия указанной суммы
@@ -72,21 +79,18 @@ public class ATM {
     //Если недостаточно денег на счете, то должно генерироваться исключение NotEnoughMoneyInAccount 
     //Если недостаточно денег в банкомате, то должно генерироваться исключение NotEnoughMoneyInATM 
     //При успешном снятии денег, указанная сумма должна списываться со счета, и в банкомате должно уменьшаться количество денег
-    public double getCash(int amount){
-<span class="nc bnc" id="L76" title="All 2 branches missed.">        if(!cardIsValidForUsing){</span>
-<span class="nc" id="L77">            System.out.println(&quot;NoCardInserted&quot;);</span>
-<span class="nc" id="L78">            throw new UnsupportedOperationException();</span>
+    public double getCash(int amount) throws NoCardInsertedException, NotEnoughMoneyInATMException{
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        if(!cardIsValidForUsing){</span>
+<span class="nc" id="L84">            throw new NoCardInsertedException(&quot;No card found in ATM.&quot;);</span>
         }
-<span class="nc bnc" id="L80" title="All 2 branches missed.">        else if(checkBalance() &lt; amount){</span>
-<span class="nc" id="L81">            System.out.println(&quot;NotEnoughMoneyInAccount&quot;);</span>
-<span class="nc" id="L82">            throw new UnsupportedOperationException();</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        else if(checkBalance() &lt; amount){</span>
+<span class="nc" id="L87">            throw new NotEnoughMoneyInATMException(&quot;Not enough money in ATM for to do this operation.&quot;);</span>
         }
-<span class="nc bnc" id="L84" title="All 2 branches missed.">        else if(checkBalance() &gt; moneyInATM){</span>
-<span class="nc" id="L85">            System.out.println(&quot;NotEnoughMoneyInATM&quot;);</span>
-<span class="nc" id="L86">            throw new UnsupportedOperationException();</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        else if(checkBalance() &gt; moneyInATM){</span>
+<span class="nc" id="L90">            throw new NotEnoughMoneyInATMException(&quot;Not enough money in ATM for to do this operation.&quot;);</span>
         }
-<span class="nc" id="L88">        moneyInATM -= amount;</span>
-<span class="nc" id="L89">        return checkBalance() - cardInATM.getAccount().withdrow(amount);</span>
+<span class="nc" id="L92">        moneyInATM -= amount;</span>
+<span class="nc" id="L93">        return checkBalance() - cardInATM.getAccount().withdrow(amount);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

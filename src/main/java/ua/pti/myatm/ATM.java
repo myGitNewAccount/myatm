@@ -1,5 +1,7 @@
 package ua.pti.myatm;
 
+import ua.pti.exceptions.*;
+
 public class ATM {
     private final static String atmWeb = "PrivatBankATMWeb";
     private final int[] denomination500_1 = {500, 200, 100, 50, 20, 10, 5, 2, 1};
@@ -9,7 +11,7 @@ public class ATM {
     private int moneyInATM;
     private int[] denomination500_1Values;
     
-    private int denominationMoneyCount(Integer denominationValues[]){
+    public final int denominationMoneyCount(Integer denominationValues[]){
         int sum = 0;
         for (int i = 0; i < denominationValues.length; i++) {
             sum += denominationValues[i] * denomination500_1[i];
@@ -18,14 +20,12 @@ public class ATM {
     }
             
     //Можно задавать количество денег в банкомате 
-    ATM(int moneyInATM, Integer... denominationValues){
+    ATM(int moneyInATM, Integer... denominationValues) throws WrongMoneyAmountException{
         if(moneyInATM < 0){
-            System.out.println("WrongMoneyAmountException");
-            throw new UnsupportedOperationException();
+            throw new WrongMoneyAmountException("Money amount, you have typed in, is wrong.");
         }
         else if(moneyInATM != denominationMoneyCount(denominationValues)){
-            System.out.println("WrongMoneyAmountException");
-            throw new UnsupportedOperationException();
+            throw new WrongMoneyAmountException("Money amount, you have typed in, is wrong.");
         }
         else{
             this.moneyInATM = moneyInATM;
@@ -41,6 +41,14 @@ public class ATM {
     // Возвращает каоличестов денег в банкомате
     public int getMoneyInATM() {
          return moneyInATM;
+    }
+    
+    public boolean getCardIsValidForUsing() {
+        return cardIsValidForUsing;
+    }
+    
+    public Card getCardInATM(){
+        return cardInATM;
     }
         
     //С вызова данного метода начинается работа с картой
@@ -58,10 +66,9 @@ public class ATM {
     }
     
     //Возвращает сколько денег есть на счету
-    public double checkBalance(){
+    public double checkBalance() throws NoCardInsertedException{
         if(!cardIsValidForUsing){
-            System.out.println("NoCardInserted");
-            throw new UnsupportedOperationException();
+            throw new NoCardInsertedException("No card found in ATM.");
         }
         return cardInATM.getAccount().getBalance();
     }
@@ -72,18 +79,15 @@ public class ATM {
     //Если недостаточно денег на счете, то должно генерироваться исключение NotEnoughMoneyInAccount 
     //Если недостаточно денег в банкомате, то должно генерироваться исключение NotEnoughMoneyInATM 
     //При успешном снятии денег, указанная сумма должна списываться со счета, и в банкомате должно уменьшаться количество денег
-    public double getCash(int amount){
+    public double getCash(int amount) throws NoCardInsertedException, NotEnoughMoneyInATMException{
         if(!cardIsValidForUsing){
-            System.out.println("NoCardInserted");
-            throw new UnsupportedOperationException();
+            throw new NoCardInsertedException("No card found in ATM.");
         }
         else if(checkBalance() < amount){
-            System.out.println("NotEnoughMoneyInAccount");
-            throw new UnsupportedOperationException();
+            throw new NotEnoughMoneyInATMException("Not enough money in ATM for to do this operation.");
         }
         else if(checkBalance() > moneyInATM){
-            System.out.println("NotEnoughMoneyInATM");
-            throw new UnsupportedOperationException();
+            throw new NotEnoughMoneyInATMException("Not enough money in ATM for to do this operation.");
         }
         moneyInATM -= amount;
         return checkBalance() - cardInATM.getAccount().withdrow(amount);
