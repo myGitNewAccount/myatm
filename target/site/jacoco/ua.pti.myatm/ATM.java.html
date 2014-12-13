@@ -25,7 +25,7 @@ public class ATM {
 <span class="fc" id="L25">            throw new WrongMoneyAmountException(&quot;Money amount, you have typed in, is wrong.&quot;);</span>
         }
 <span class="fc bfc" id="L27" title="All 2 branches covered.">        else if(moneyInATM != denominationMoneyCount(denominationValues)){</span>
-<span class="fc" id="L28">            throw new WrongMoneyAmountException(&quot;Money amount, you have typed in, is wrong.&quot;);</span>
+<span class="fc" id="L28">            throw new WrongMoneyAmountException();</span>
         }
         else{
 <span class="fc" id="L31">            this.moneyInATM = moneyInATM;</span>
@@ -57,7 +57,7 @@ public class ATM {
     public boolean validateCard(Card card, int pinCode){
 <span class="fc" id="L58">        cardInATM = card;</span>
 <span class="fc bfc" id="L59" title="All 2 branches covered.">        if(cardInATM.checkPin(pinCode)){</span>
-<span class="pc bpc" id="L60" title="1 of 2 branches missed.">            if(!cardInATM.isBlocked()){</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">            if(!cardInATM.isBlocked()){</span>
 <span class="fc" id="L61">                cardIsValidForUsing = true;</span>
 <span class="fc" id="L62">                return cardIsValidForUsing;</span>
             }
@@ -67,10 +67,10 @@ public class ATM {
     
     //Возвращает сколько денег есть на счету
     public double checkBalance() throws NoCardInsertedException{
-<span class="nc bnc" id="L70" title="All 2 branches missed.">        if(!cardIsValidForUsing){</span>
-<span class="nc" id="L71">            throw new NoCardInsertedException(&quot;No card found in ATM.&quot;);</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if(!cardIsValidForUsing){</span>
+<span class="fc" id="L71">            throw new NoCardInsertedException(&quot;No card found in ATM.&quot;);</span>
         }
-<span class="nc" id="L73">        return cardInATM.getAccount().getBalance();</span>
+<span class="fc" id="L73">        return cardInATM.getAccount().getBalance();</span>
     }
     
     //Метод для снятия указанной суммы
@@ -79,18 +79,19 @@ public class ATM {
     //Если недостаточно денег на счете, то должно генерироваться исключение NotEnoughMoneyInAccount 
     //Если недостаточно денег в банкомате, то должно генерироваться исключение NotEnoughMoneyInATM 
     //При успешном снятии денег, указанная сумма должна списываться со счета, и в банкомате должно уменьшаться количество денег
-    public double getCash(int amount) throws NoCardInsertedException, NotEnoughMoneyInATMException{
-<span class="nc bnc" id="L83" title="All 2 branches missed.">        if(!cardIsValidForUsing){</span>
-<span class="nc" id="L84">            throw new NoCardInsertedException(&quot;No card found in ATM.&quot;);</span>
+    public double getCash(int amount) throws NoCardInsertedException, NotEnoughMoneyInATMException {
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        if(!cardIsValidForUsing){</span>
+<span class="fc" id="L84">            throw new NoCardInsertedException();</span>
         }
-<span class="nc bnc" id="L86" title="All 2 branches missed.">        else if(checkBalance() &lt; amount){</span>
-<span class="nc" id="L87">            throw new NotEnoughMoneyInATMException(&quot;Not enough money in ATM for to do this operation.&quot;);</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        else if(checkBalance() &lt; amount){</span>
+<span class="fc" id="L87">            throw new NotEnoughMoneyInATMException();</span>
         }
-<span class="nc bnc" id="L89" title="All 2 branches missed.">        else if(checkBalance() &gt; moneyInATM){</span>
-<span class="nc" id="L90">            throw new NotEnoughMoneyInATMException(&quot;Not enough money in ATM for to do this operation.&quot;);</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        else if(moneyInATM &lt; amount){</span>
+<span class="fc" id="L90">            throw new NotEnoughMoneyInATMException(&quot;Not enough money in ATM for to do this operation.&quot;);</span>
         }
-<span class="nc" id="L92">        moneyInATM -= amount;</span>
-<span class="nc" id="L93">        return checkBalance() - cardInATM.getAccount().withdrow(amount);</span>
+        
+<span class="fc" id="L93">        moneyInATM -= amount;</span>
+<span class="fc" id="L94">        return checkBalance() - cardInATM.getAccount().withdrow(amount);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

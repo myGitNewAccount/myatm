@@ -25,7 +25,7 @@ public class ATM {
             throw new WrongMoneyAmountException("Money amount, you have typed in, is wrong.");
         }
         else if(moneyInATM != denominationMoneyCount(denominationValues)){
-            throw new WrongMoneyAmountException("Money amount, you have typed in, is wrong.");
+            throw new WrongMoneyAmountException();
         }
         else{
             this.moneyInATM = moneyInATM;
@@ -79,16 +79,17 @@ public class ATM {
     //Если недостаточно денег на счете, то должно генерироваться исключение NotEnoughMoneyInAccount 
     //Если недостаточно денег в банкомате, то должно генерироваться исключение NotEnoughMoneyInATM 
     //При успешном снятии денег, указанная сумма должна списываться со счета, и в банкомате должно уменьшаться количество денег
-    public double getCash(int amount) throws NoCardInsertedException, NotEnoughMoneyInATMException{
+    public double getCash(int amount) throws NoCardInsertedException, NotEnoughMoneyInATMException {
         if(!cardIsValidForUsing){
-            throw new NoCardInsertedException("No card found in ATM.");
+            throw new NoCardInsertedException();
         }
         else if(checkBalance() < amount){
+            throw new NotEnoughMoneyInATMException();
+        }
+        else if(moneyInATM < amount){
             throw new NotEnoughMoneyInATMException("Not enough money in ATM for to do this operation.");
         }
-        else if(checkBalance() > moneyInATM){
-            throw new NotEnoughMoneyInATMException("Not enough money in ATM for to do this operation.");
-        }
+        
         moneyInATM -= amount;
         return checkBalance() - cardInATM.getAccount().withdrow(amount);
     }
