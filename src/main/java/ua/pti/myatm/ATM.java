@@ -1,5 +1,6 @@
 package ua.pti.myatm;
 
+import static java.lang.Integer.min;
 import ua.pti.exceptions.*;
 
 public class ATM {
@@ -80,6 +81,9 @@ public class ATM {
     //Если недостаточно денег в банкомате, то должно генерироваться исключение NotEnoughMoneyInATM 
     //При успешном снятии денег, указанная сумма должна списываться со счета, и в банкомате должно уменьшаться количество денег
     public double getCash(int amount) throws NoCardInsertedException, NotEnoughMoneyInATMException {
+        int amountCopy = amount;
+        int min  = 0;
+        
         if(!cardIsValidForUsing){
             throw new NoCardInsertedException();
         }
@@ -88,6 +92,16 @@ public class ATM {
         }
         else if(moneyInATM < amount){
             throw new NotEnoughMoneyInATMException("Not enough money in ATM for to do this operation.");
+        }
+        
+        for(int i = 0; i < denomination500_1Values.length; i++){
+            min = min(amountCopy / denomination500_1[i], denomination500_1Values[i]);
+            amountCopy -= min * denomination500_1[i];
+            denomination500_1[i] -= min;
+        }
+        
+        if(amountCopy != 0){
+            throw new NotEnoughMoneyInATMException();
         }
         
         moneyInATM -= amount;
