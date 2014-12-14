@@ -180,6 +180,25 @@ public class ATMTest {
         assertEquals(expResult, result, 0);
     }
     
+        @Test 
+    public void testIsBlockedInCheckBalanceIfcardIsValidForUsing() throws WrongMoneyAmountException, NoCardInsertedException{
+        double expResult = 78.45;
+        ATM instance = new ATM(0);
+        
+        Account account = mock(Account.class);
+        when(account.getBalance()).thenReturn(78.45);
+        
+        Card card = mock(Card.class);
+        when(card.checkPin(anyInt())).thenReturn(true);
+        when(card.isBlocked()).thenReturn(false);
+        when(card.getAccount()).thenReturn(account);
+        
+        instance.validateCard(card, anyInt());
+        double result = instance.checkBalance();
+        
+        verify(card, atLeastOnce()).isBlocked();
+    }
+    
     @Test(expected = NoCardInsertedException.class)
     public void testGetCashCardIsNotValidForUse() throws WrongMoneyAmountException, NoCardInsertedException, NotEnoughMoneyInATMException {
         ATM instance = new ATM(1209, 2, 0, 2, 0, 0, 0, 0, 3, 3);
@@ -231,13 +250,13 @@ public class ATMTest {
         instance.getCash(678);
     }
     
-    @Test
-    public void testGetCashAmountDenominatesBiggerThanMoneyInATM() throws WrongMoneyAmountException, NoCardInsertedException, NotEnoughMoneyInATMException {
+    @Test(expected = NotEnoughMoneyInATMException.class)
+    public void testGetCashNotEnoughAmountOfDenominatesInATM() throws WrongMoneyAmountException, NoCardInsertedException, NotEnoughMoneyInATMException {
         ATM instance = new ATM(250, 0, 0, 2, 1);
         
         Account account = mock(Account.class);
         when(account.getBalance()).thenReturn(2434778.67);
-        when(account.withdrow(anyDouble())).thenReturn(250.0);
+        when(account.withdrow(anyDouble())).thenReturn(220.0);
         
         Card card = mock(Card.class);
         when(card.checkPin(anyInt())).thenReturn(true);
@@ -245,6 +264,33 @@ public class ATMTest {
         when(card.getAccount()).thenReturn(account);
         
         instance.validateCard(card, anyInt());
-        instance.getCash(250);
+        instance.getCash(220);
+    }
+    
+    @Test
+    public void testGetCashCheckMoneyInATM() throws WrongMoneyAmountException, NoCardInsertedException, NotEnoughMoneyInATMException {
+        int expResult = 200;
+        ATM instance = new ATM(250, 0, 0, 2, 1);
+        
+        Account account = mock(Account.class);
+        when(account.getBalance()).thenReturn(2434778.67);
+        when(account.withdrow(anyDouble())).thenReturn(50.0);
+        
+        Card card = mock(Card.class);
+        when(card.checkPin(anyInt())).thenReturn(true);
+        when(card.isBlocked()).thenReturn(false);
+        when(card.getAccount()).thenReturn(account);
+        
+        instance.validateCard(card, anyInt());
+        instance.getCash(50);
+        int result = instance.getMoneyInATM();
+        
+        assertEquals(expResult, result, 0);
+    }
+    
+    
+    @Test(expected = WrongMoneyAmountException.class) 
+    public void testWrongDenominatesValuesUnderZero() throws WrongMoneyAmountException {
+        ATM instance = new ATM(100, 0, 1, -1);
     }
 }
