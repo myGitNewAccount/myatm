@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="21" failures="1" name="ua.pti.myatm.ATMTest" time="0.962" errors="0" skipped="0">
+<testsuite tests="21" failures="1" name="ua.pti.myatm.ATMTest" time="1.766" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib"/>
@@ -62,11 +62,11 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="ua.pti.myatm.ATMTest" name="testIsBlockedInCheckBalanceIfcardIsValidForUsing" time="0.655"/>
+  <testcase classname="ua.pti.myatm.ATMTest" name="testIsBlockedInCheckBalanceIfcardIsValidForUsing" time="1.184"/>
   <testcase classname="ua.pti.myatm.ATMTest" name="testCheckBalanceIfcardIsValidForUsing" time="0"/>
-  <testcase classname="ua.pti.myatm.ATMTest" name="testGetMoneyInATM2Denominates500" time="0"/>
-  <testcase classname="ua.pti.myatm.ATMTest" name="testCardInATMStart" time="0"/>
-  <testcase classname="ua.pti.myatm.ATMTest" name="testWrongDenominatesValuesUnderZero" time="0.008">
+  <testcase classname="ua.pti.myatm.ATMTest" name="testGetMoneyInATM2Denominates500" time="0.001"/>
+  <testcase classname="ua.pti.myatm.ATMTest" name="testCardInATMStart" time="0.004"/>
+  <testcase classname="ua.pti.myatm.ATMTest" name="testWrongDenominatesValuesUnderZero" time="0.017">
     <failure message="Expected exception: ua.pti.exceptions.WrongMoneyAmountException" type="java.lang.AssertionError">java.lang.AssertionError: Expected exception: ua.pti.exceptions.WrongMoneyAmountException
 	at org.junit.internal.runners.statements.ExpectException.evaluate(ExpectException.java:32)
 	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)
@@ -92,20 +92,20 @@
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
 </failure>
   </testcase>
-  <testcase classname="ua.pti.myatm.ATMTest" name="testGetCashNotEnoughAmountOfDenominatesInATM" time="0.005"/>
-  <testcase classname="ua.pti.myatm.ATMTest" name="testValidateCardWrongPin" time="0.004"/>
+  <testcase classname="ua.pti.myatm.ATMTest" name="testGetCashNotEnoughAmountOfDenominatesInATM" time="0.003"/>
+  <testcase classname="ua.pti.myatm.ATMTest" name="testValidateCardWrongPin" time="0.01"/>
   <testcase classname="ua.pti.myatm.ATMTest" name="testGetCashWithAllRightValues" time="0.003"/>
-  <testcase classname="ua.pti.myatm.ATMTest" name="testCheckBalanceifcardIsNotValidForUsing" time="0.005"/>
-  <testcase classname="ua.pti.myatm.ATMTest" name="testValidateCardOrderMethods" time="0.025"/>
+  <testcase classname="ua.pti.myatm.ATMTest" name="testCheckBalanceifcardIsNotValidForUsing" time="0"/>
+  <testcase classname="ua.pti.myatm.ATMTest" name="testValidateCardOrderMethods" time="0.037"/>
   <testcase classname="ua.pti.myatm.ATMTest" name="testGetCashAmountBiggerThanCheckBalance" time="0.002"/>
-  <testcase classname="ua.pti.myatm.ATMTest" name="testGetCashCheckMoneyInATM" time="0.003"/>
-  <testcase classname="ua.pti.myatm.ATMTest" name="testGetMoneyInATM9Denominates100" time="0.001"/>
-  <testcase classname="ua.pti.myatm.ATMTest" name="testSetWrongMoneyAmountInAtmAndTryToGet" time="0"/>
-  <testcase classname="ua.pti.myatm.ATMTest" name="testGetCashAmountBiggerThanMoneyInATM" time="0.002"/>
+  <testcase classname="ua.pti.myatm.ATMTest" name="testGetCashCheckMoneyInATM" time="0.004"/>
+  <testcase classname="ua.pti.myatm.ATMTest" name="testGetMoneyInATM9Denominates100" time="0.002"/>
+  <testcase classname="ua.pti.myatm.ATMTest" name="testSetWrongMoneyAmountInAtmAndTryToGet" time="0.001"/>
+  <testcase classname="ua.pti.myatm.ATMTest" name="testGetCashAmountBiggerThanMoneyInATM" time="0.003"/>
   <testcase classname="ua.pti.myatm.ATMTest" name="testValidateCardIsBlocked" time="0.001"/>
   <testcase classname="ua.pti.myatm.ATMTest" name="testDenominationRightReceive" time="0"/>
   <testcase classname="ua.pti.myatm.ATMTest" name="testCardIsValidForUsingStart" time="0"/>
-  <testcase classname="ua.pti.myatm.ATMTest" name="testCheckPinInCheckBalanceIfcardIsValidForUsing" time="0.004"/>
-  <testcase classname="ua.pti.myatm.ATMTest" name="testGetCashCardIsNotValidForUse" time="0.002"/>
+  <testcase classname="ua.pti.myatm.ATMTest" name="testCheckPinInCheckBalanceIfcardIsValidForUsing" time="0.003"/>
+  <testcase classname="ua.pti.myatm.ATMTest" name="testGetCashCardIsNotValidForUse" time="0.003"/>
   <testcase classname="ua.pti.myatm.ATMTest" name="testGetMoneyInATM0Denominates" time="0"/>
 </testsuite>
