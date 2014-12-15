@@ -4,7 +4,7 @@ import static java.lang.Integer.min;
 import ua.pti.exceptions.*;
 
 public class ATM {
-    private final static String atmWeb = "PrivatBankATMWeb";
+    private final static String atmWeb = "PrivateBankATMWeb";
     private final int[] denomination500_1 = {500, 200, 100, 50, 20, 10, 5, 2, 1};
     
     private Card cardInATM;
