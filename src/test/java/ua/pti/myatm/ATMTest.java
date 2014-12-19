@@ -143,7 +143,6 @@ public class ATMTest {
     
     @Test 
     public void testCheckPinInCheckBalanceIfcardIsValidForUsing() throws WrongMoneyAmountException, NoCardInsertedException{
-        double expResult = 78.45;
         ATM instance = new ATM(0);
         
         Account account = mock(Account.class);
@@ -155,7 +154,7 @@ public class ATMTest {
         when(card.getAccount()).thenReturn(account);
         
         instance.validateCard(card, anyInt());
-        double result = instance.checkBalance();
+        instance.checkBalance();
         
         verify(card, atLeastOnce()).checkPin(anyInt());
     }
@@ -182,7 +181,6 @@ public class ATMTest {
     
         @Test 
     public void testIsBlockedInCheckBalanceIfcardIsValidForUsing() throws WrongMoneyAmountException, NoCardInsertedException{
-        double expResult = 78.45;
         ATM instance = new ATM(0);
         
         Account account = mock(Account.class);
@@ -194,7 +192,7 @@ public class ATMTest {
         when(card.getAccount()).thenReturn(account);
         
         instance.validateCard(card, anyInt());
-        double result = instance.checkBalance();
+        instance.checkBalance();
         
         verify(card, atLeastOnce()).isBlocked();
     }

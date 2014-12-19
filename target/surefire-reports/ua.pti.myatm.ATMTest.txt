@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: ua.pti.myatm.ATMTest
 -------------------------------------------------------------------------------
-Tests run: 21, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 1.767 sec <<< FAILURE!
-testWrongDenominatesValuesUnderZero(ua.pti.myatm.ATMTest)  Time elapsed: 0.017 sec  <<< FAILURE!
+Tests run: 21, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.894 sec <<< FAILURE!
+testWrongDenominatesValuesUnderZero(ua.pti.myatm.ATMTest)  Time elapsed: 0.01 sec  <<< FAILURE!
 java.lang.AssertionError: Expected exception: ua.pti.exceptions.WrongMoneyAmountException
 	at org.junit.internal.runners.statements.ExpectException.evaluate(ExpectException.java:32)
 	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)
