@@ -81,8 +81,6 @@ public class ATM {
     //Если недостаточно денег в банкомате, то должно генерироваться исключение NotEnoughMoneyInATM 
     //При успешном снятии денег, указанная сумма должна списываться со счета, и в банкомате должно уменьшаться количество денег
     public double getCash(int amount) throws NoCardInsertedException, NotEnoughMoneyInATMException {
-        int amountCopy = amount;
-        int min  = 0;
         
         if(!cardIsValidForUsing){
             throw new NoCardInsertedException();
@@ -90,9 +88,19 @@ public class ATM {
         else if(checkBalance() < amount){
             throw new NotEnoughMoneyInATMException();
         }
-        else if(moneyInATM < amount){
+        else if(getMoneyInATM() < amount){
             throw new NotEnoughMoneyInATMException("Not enough money in ATM for to do this operation.");
         }
+        
+        checkDenominates(amount);
+        
+        moneyInATM -= amount;
+        return checkBalance() - cardInATM.getAccount().withdrow(amount);
+    }
+    
+    private void checkDenominates(int amount) throws NotEnoughMoneyInATMException{
+        int amountCopy = amount;
+        int min  = 0;
         
         for(int i = 0; i < denomination500_1Values.length; i++){
             min = min(amountCopy / denomination500_1[i], denomination500_1Values[i]);
@@ -103,8 +111,5 @@ public class ATM {
         if(amountCopy != 0){
             throw new NotEnoughMoneyInATMException();
         }
-        
-        moneyInATM -= amount;
-        return checkBalance() - cardInATM.getAccount().withdrow(amount);
     }
 }
